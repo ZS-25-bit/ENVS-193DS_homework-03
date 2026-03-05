@@ -1,6 +1,84 @@
 ---
 title: "Homework 03"
 author: "Zoe Stopfer"
+date: "2026/03/03"
 format: html
 editor: visual
+https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git
 ---
+
+```{r}
+#| label: Reading in Packages
+#| message: false
+# reading in packages 
+library(tidyverse) 
+library(here)
+library(flextable)
+library(janitor)
+salinity <- read_csv(here("Data", "salinity-pickleweed.csv"))
+my_data <- read_csv(here("Data", "JJMood4.csv")) |> # read in JJ Mood and make into a object
+  clean_names() # clean column names
+```
+
+# Problem 1. Slough Soil Salinity
+
+## a.
+
+## b.
+
+```{r}
+#| label: Creating scatterplot 
+ggplot(data = salinity, # use the salintiy data frame
+       aes(x = pickleweed, # x-axis
+           y = salinity_mS_cm,)) + # y-axis
+  geom_point(color = "palegreen3") + # adding points and changin color
+  labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
+       y = "Salinity(mS/cm)", # and the y-axis
+       title = "Pickleweed Growth based on Slough Salintiy") # adding title
+theme_gray() # changing theme 
+```
+
+## c. 
+
+## d. 
+
+## e. 
+
+## f. 
+
+# Problem 2. Personal data
+
+## a.
+
+```{r}
+ggplot(data = my_data, # use my_data frame 
+       aes(x = attendance)) + #add x-axis
+  geom_histogram(stat = "count", #  creates a histogram 
+                 fill = "#FF4500", # fill in bar with color
+                 color = "darkorchid3") + # outline bar 
+  facet_wrap(~mood_category) + # separated by each mood
+  labs(title = "Mood Based on Going/Not Going to Jiu Jitsu", # add title
+       x = "Attendance", # label x-axis
+       y = "Frequency") + # label y-axis 
+
+  theme_grey()+ # change theme
+  theme(legend.position = "none") # remove legend 
+```
+
+```{r}
+ggplot(data = my_data, # use my_data data frame
+       aes(x = dates, # create x-axis and y-axis
+           y = mood_category,
+           color = mood_category)) + # color mood_category 
+  geom_point() + # adding points
+  labs( x = "Date", # relabelling x, y, title, and color
+        y = "Mood",
+        title = "Mood Throughout Time",
+        color = "Mood Category") +
+  theme_grey() # change theme
+
+```
+
+## b.
+
+**Figure 1. Mood Based on Going/ Not Going to Jiu Jitsu.** Each section represents a different mood category that my day could have fallen on whether or not I attended or did not attend Jiu Jitsu. "HEP" means "High Energy Positive" mood. "HEU" means "Hig Small black points represent measurements of crab carapace widths at three sites: Zeke’s Island National Estuarine Research Reserve (NERR), Virginia Coastal Reserve Long-Term Ecological Research (LTER) site, and Cape Cod. Large red points represent mean crab carapace width. Data originally from: Johnson, D. 2019. Fiddler crab body size in salt marshes from Florida to Massachusetts, USA at PIE and VCR LTER and NOAA NERR sites during summer 2016. ver 1. Environmental Data Initiative.
