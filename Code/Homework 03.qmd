@@ -150,13 +150,23 @@ ggplot(data = my_data, # use my_data data frame
 
 ## a.
 
+For my affective visualization, it could look like a collage/ scrapbook. Since I have four different mood categories, I wanted to represent each mood with a color. From those colors, I would find images of items that fall in those colors and glue them in order from how I felt each day. I wanted to glue the pictures also in a zig zag shape to represent " Z" for Zoe, since this is my data set.
+
 ## b.
+
+![](images/clipboard-2852098940.png)
 
 ## c.
 
+![](images/clipboard-139640617.png)
+
 ## d.
 
+In my piece I wanted to use day-to-day items to show how much influence our day-to-day mood has on us. Anything can influence our mood throughout the day, so does attending jiu jitsu really make that big of a difference? This is what I wanted to represent in my visualization. My influence is Pinterest. I enjoy grouping photos together that fit a certain theme, and seeing others on the Internet scrapbook. I myself am not a great artist, so I thought scrapbooking would be perfect to still let me be creative as well not humiliate myself to others with my drawing skills. Honestly, my process was just a light bulb moment. I kept on thinking what I could do, without having to paint and draw with making it seem dull and scrapbooking was the thing that called me.
+
 ## e.
+
+<https://docs.google.com/presentation/d/1baZvH3nevBYd-IbRNbMper1oahUeJJI5jOKi6UShWcI/edit?usp=sharing>
 
 # Problem 4. Statistical critique
 
