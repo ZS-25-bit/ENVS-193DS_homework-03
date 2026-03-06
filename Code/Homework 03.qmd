@@ -37,7 +37,7 @@ ggplot(data = salinity, # use the salintiy data frame
   geom_point(color = "palegreen3") + # adding points and changin color
   labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
        y = "Salinity(mS/cm)", # and the y-axis
-       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") + # adding title
 theme_gray() # changing theme 
 ```
 
@@ -51,7 +51,7 @@ ggplot(data = salinity, # use the salintiy data frame
   geom_point(color = "orchid4") + # adding points and changin color
   labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
        y = "Salinity(mS/cm)", # and the y-axis
-       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") + # adding title
 theme_gray() # changing theme 
 ```
 
@@ -81,7 +81,7 @@ ggplot(data = salinity, # use the salintiy data frame
   geom_point(color = "aquamarine4") + # adding points and changin color
   labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
        y = "Salinity(mS/cm)", # and the y-axis
-       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases")+ # adding title
 theme_gray() # changing theme 
 ```
 
