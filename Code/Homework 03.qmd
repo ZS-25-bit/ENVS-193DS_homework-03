@@ -15,7 +15,7 @@ library(tidyverse)
 library(here)
 library(flextable)
 library(janitor)
-salinity <- read_csv(here("Data", "salinity-pickleweed.csv"))
+salinity <- read_csv(here("Data", "salinity-pickleweed.csv")) # reading salinity data 
 my_data <- read_csv(here("Data", "JJMood4.csv")) |> # read in JJ Mood and make into a object
   clean_names() # clean column names
 ```
@@ -23,6 +23,8 @@ my_data <- read_csv(here("Data", "JJMood4.csv")) |> # read in JJ Mood and make i
 # Problem 1. Slough Soil Salinity
 
 ## a.
+
+Pearson's correlation and Spearman rank correlation are appropriate tests to determine the strength of the relationship between Salinity and California pickleweed biomass because correlation can be used independently of a linear model because the 2 variables are related to each other. Pearson's correlation is a parametric test that would show the linear relationship between slough soil salinity and pickleweed biomass. Spearman rank correlation is a non-parametric test that would show the monotonic relationship between slough soil salinity and pickleweed biomass.
 
 ## b.
 
@@ -34,17 +36,77 @@ ggplot(data = salinity, # use the salintiy data frame
   geom_point(color = "palegreen3") + # adding points and changin color
   labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
        y = "Salinity(mS/cm)", # and the y-axis
-       title = "Pickleweed Growth based on Slough Salintiy") # adding title
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
 theme_gray() # changing theme 
 ```
 
-## c. 
+## c.
 
-## d. 
+```{r}
+#| label: Spearman plot
+ggplot(data = salinity, # use the salintiy data frame
+       aes(x = pickleweed, # x-axis
+           y = salinity_mS_cm,)) + # y-axis
+  geom_point(color = "orchid4") + # adding points and changin color
+  labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
+       y = "Salinity(mS/cm)", # and the y-axis
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
+theme_gray() # changing theme 
+```
 
-## e. 
+```{r}
+#| label: spearman test
+cor.test(salinity$salinity_mS_cm,salinity$pickleweed, # adding in data frame and columns 
+         method = "spearman") # this spearman test 
+```
 
-## f. 
+The test I ran was the Spearman rank correlation. The assumptions I checked was if there were 1) independent observations and 2) a monotonic relationship between variables. The independent observations in the problem were the slough soil salinity and the pickleweed biomass. The monotonic relationship can be seen in the scatterplot where the dots are following a consistent direction of a curve going up. Since the data is related to each and it aligns with our assumptions, Spearman rank correlation was a appropriate test.
+
+## d.
+
+To evaluate the strength of the relationship between pickleweed biomass and soil salinity, I used a Spearman rank correlation test. Based off the test, we found a moderate relationship between pickleweed biomass and soil salinity ( Spearman ρ = 0,59, S = 824, p = 0.003, α = 0.05).
+
+## e.
+
+Based of the results of the test, we can conclude that the pickleweed biomass increases when the solute soil salinity increases. The graph shows that the data moves in a upward curve as both mS/cm increases when g increases. If we want to restore the population of pickleweed, we should plant them in soil with higher salinity.
+
+## f.
+
+```{r}
+#| label: Pearson's plot
+ggplot(data = salinity, # use the salintiy data frame
+       aes(x = pickleweed, # x-axis
+           y = salinity_mS_cm,)) + # y-axis
+  geom_point(color = "aquamarine4") + # adding points and changin color
+  labs(x = "California Picklweed Biomass(g)", # relabelling the x-axis
+       y = "Salinity(mS/cm)", # and the y-axis
+       title = "As Pickleweed Biomass Growth Increases Slough Salintiy Increases") # adding title
+theme_gray() # changing theme 
+```
+
+```{r}
+#| label: testing if normally distributed
+ggplot(data = salinity, 
+       aes(x = pickleweed)) + # x-axis
+  # first layer: histogram
+  geom_histogram(bins = 6, # bins from Rice Rule (approximate)
+                 fill = "orange",
+                 color = "black") + 
+  theme_minimal() +
+  labs(x = "Calinfornia Picklweed Biomass(g)", # naming x and y axis 
+       y = "Salinity(mS/cm)")
+
+
+```
+
+```{r}
+#| label: Pearson's test 
+ cor.test(salinity$salinity_mS_cm,salinity$pickleweed, # adding in data frame and columns 
+         method = "pearson") # this pearson's test 
+
+```
+
+The two test would have not led us in the same direction. The Pearson's correlation, when testing if its normally distributed shows that the data is not perfect, but this can happen with larger data sets. However the Pearson's correlation test gave us a positive number indicating that there is a positive and "strong" relationship between soil salinity and pickleweed biomass. In the end, both test seem to lean towards there being a positive relationship between both variables.
 
 # Problem 2. Personal data
 
@@ -76,9 +138,32 @@ ggplot(data = my_data, # use my_data data frame
         title = "Mood Throughout Time",
         color = "Mood Category") +
   theme_grey() # change theme
-
 ```
 
 ## b.
 
-**Figure 1. Mood Based on Going/ Not Going to Jiu Jitsu.** Each section represents a different mood category that my day could have fallen on whether or not I attended or did not attend Jiu Jitsu. "HEP" means "High Energy Positive" mood. "HEU" means "Hig Small black points represent measurements of crab carapace widths at three sites: Zeke’s Island National Estuarine Research Reserve (NERR), Virginia Coastal Reserve Long-Term Ecological Research (LTER) site, and Cape Cod. Large red points represent mean crab carapace width. Data originally from: Johnson, D. 2019. Fiddler crab body size in salt marshes from Florida to Massachusetts, USA at PIE and VCR LTER and NOAA NERR sites during summer 2016. ver 1. Environmental Data Initiative.
+**Figure 1. Going/Not Going to Jiu Jitsu:** Columns represent counts of attendance in regards of going or not going to jiu Jitsu. Distributions of attendance are represented in four panels based on my emotion at the end of day in regards to attendance: HEP "high energy positive"(top left), HEU" high energy unpleasant" (top right), LEP "low energy positive" (bottom left), and LEU " low energy unpleasant"(bottom right) .
+
+**Figure 2. Mood Throughout Time.** Each dot represents the mood I felt at the end of the day in regards of my attendance of going to jiu jitsu. It is split up into four mood categories: red is HEP( high energy positive), green is HEP( high energy unpleasant), blue is LEP( low energy positive), and purple is LEU( low energy unpleasant).
+
+# Problem 3. Affective visualization
+
+## a.
+
+## b.
+
+## c.
+
+## d.
+
+## e.
+
+# Problem 4. Statistical critique
+
+## a.
+
+## b.
+
+## c.
+
+## d.
