@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zoe Stopfer">
+<meta name="dcterms.date" content="2026-03-03">
+
+<title>Homework 03</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Homework 03_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Homework 03_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Homework 03_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Homework 03_files/libs/quarto-html/popper.min.js"></script>
+<script src="Homework 03_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Homework 03_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Homework 03_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Homework 03_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Homework 03_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Homework 03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Homework 03_files/libs/bootstrap/bootstrap-8a194af6e320b7e92a73b9d91467a5ca.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework 03</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zoe Stopfer </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 3, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reading in packages </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>salinity <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"salinity-pickleweed.csv"</span>)) <span class="co"># reading salinity data </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"JJMood4.csv"</span>)) <span class="sc">|&gt;</span> <span class="co"># read in JJ Mood and make into a object</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="co"># clean column names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git" class="uri">https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git</a></p>
+<section id="problem-1.-slough-soil-salinity" class="level1">
+<h1>Problem 1. Slough Soil Salinity</h1>
+<section id="a." class="level2">
+<h2 class="anchored" data-anchor-id="a.">a.</h2>
+<p>Pearson’s correlation and Spearman rank correlation are appropriate tests to determine the strength of the relationship between Salinity and California pickleweed biomass because correlation can be used independently of a linear model because the 2 variables are related to each other. Pearson’s correlation is a parametric test that would show the linear relationship between slough soil salinity and pickleweed biomass. Spearman rank correlation is a non-parametric test that would show the monotonic relationship between slough soil salinity and pickleweed biomass.</p>
+</section>
+<section id="b." class="level2">
+<h2 class="anchored" data-anchor-id="b.">b.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> salinity, <span class="co"># use the salintiy data frame</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> pickleweed, <span class="co"># x-axis</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> salinity_mS_cm,)) <span class="sc">+</span> <span class="co"># y-axis</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"palegreen3"</span>) <span class="sc">+</span> <span class="co"># adding points and changin color</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"California Picklweed Biomass(g)"</span>, <span class="co"># relabelling the x-axis</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Salinity(mS/cm)"</span>, <span class="co"># and the y-axis</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"As Pickleweed Biomass Growth Increases Slough Salintiy Increases"</span>) <span class="co"># adding title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/Creating%20scatterplot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_gray</span>() <span class="co"># changing theme </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;theme&gt; List of 144
+ $ line                            : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ lineend      : chr "butt"
+  ..@ linejoin     : chr "round"
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "black"
+  ..@ inherit.blank: logi TRUE
+ $ rect                            : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ text                            : &lt;ggplot2::element_text&gt;
+  ..@ family       : chr ""
+  ..@ face         : chr "plain"
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "black"
+  ..@ size         : num 11
+  ..@ hjust        : num 0.5
+  ..@ vjust        : num 0.5
+  ..@ angle        : num 0
+  ..@ lineheight   : num 0.9
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 0
+  ..@ debug        : logi FALSE
+  ..@ inherit.blank: logi TRUE
+ $ title                           : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ point                           : &lt;ggplot2::element_point&gt;
+  ..@ colour       : chr "black"
+  ..@ shape        : num 19
+  ..@ size         : num 1.5
+  ..@ fill         : chr "white"
+  ..@ stroke       : num 0.5
+  ..@ inherit.blank: logi TRUE
+ $ polygon                         : &lt;ggplot2::element_polygon&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ geom                            : &lt;ggplot2::element_geom&gt;
+  ..@ ink        : chr "black"
+  ..@ paper      : chr "white"
+  ..@ accent     : chr "#3366FF"
+  ..@ linewidth  : num 0.5
+  ..@ borderwidth: num 0.5
+  ..@ linetype   : int 1
+  ..@ bordertype : int 1
+  ..@ family     : chr ""
+  ..@ fontsize   : num 3.87
+  ..@ pointsize  : num 1.5
+  ..@ pointshape : num 19
+  ..@ colour     : NULL
+  ..@ fill       : NULL
+ $ spacing                         : 'simpleUnit' num 5.5points
+  ..- attr(*, "unit")= int 8
+ $ margins                         : &lt;ggplot2::margin&gt; num [1:4] 5.5 5.5 5.5 5.5
+ $ aspect.ratio                    : NULL
+ $ axis.title                      : NULL
+ $ axis.title.x                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.75 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.top                : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.75 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.bottom             : NULL
+ $ axis.title.y                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num 90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.75 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.y.left               : NULL
+ $ axis.title.y.right              : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num -90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.75
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text                       : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "#4D4D4DFF"
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.2 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.top                 : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.2 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.bottom              : NULL
+ $ axis.text.y                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 1
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.y.left                : NULL
+ $ axis.text.y.right               : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.theta                 : NULL
+ $ axis.text.r                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0.5
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks                      : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "#333333FF"
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ lineend      : NULL
+  ..@ linejoin     : NULL
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "#333333FF"
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks.x                    : NULL
+ $ axis.ticks.x.top                : NULL
+ $ axis.ticks.x.bottom             : NULL
+ $ axis.ticks.y                    : NULL
+ $ axis.ticks.y.left               : NULL
+ $ axis.ticks.y.right              : NULL
+ $ axis.ticks.theta                : NULL
+ $ axis.ticks.r                    : NULL
+ $ axis.minor.ticks.x.top          : NULL
+ $ axis.minor.ticks.x.bottom       : NULL
+ $ axis.minor.ticks.y.left         : NULL
+ $ axis.minor.ticks.y.right        : NULL
+ $ axis.minor.ticks.theta          : NULL
+ $ axis.minor.ticks.r              : NULL
+ $ axis.ticks.length               : 'rel' num 0.5
+ $ axis.ticks.length.x             : NULL
+ $ axis.ticks.length.x.top         : NULL
+ $ axis.ticks.length.x.bottom      : NULL
+ $ axis.ticks.length.y             : NULL
+ $ axis.ticks.length.y.left        : NULL
+ $ axis.ticks.length.y.right       : NULL
+ $ axis.ticks.length.theta         : NULL
+ $ axis.ticks.length.r             : NULL
+ $ axis.minor.ticks.length         : 'rel' num 0.75
+ $ axis.minor.ticks.length.x       : NULL
+ $ axis.minor.ticks.length.x.top   : NULL
+ $ axis.minor.ticks.length.x.bottom: NULL
+ $ axis.minor.ticks.length.y       : NULL
+ $ axis.minor.ticks.length.y.left  : NULL
+ $ axis.minor.ticks.length.y.right : NULL
+ $ axis.minor.ticks.length.theta   : NULL
+ $ axis.minor.ticks.length.r       : NULL
+ $ axis.line                       : &lt;ggplot2::element_blank&gt;
+ $ axis.line.x                     : NULL
+ $ axis.line.x.top                 : NULL
+ $ axis.line.x.bottom              : NULL
+ $ axis.line.y                     : NULL
+ $ axis.line.y.left                : NULL
+ $ axis.line.y.right               : NULL
+ $ axis.line.theta                 : NULL
+ $ axis.line.r                     : NULL
+ $ legend.background               : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : NULL
+  ..@ colour       : logi NA
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ linejoin     : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.margin                   : NULL
+ $ legend.spacing                  : 'rel' num 2
+ $ legend.spacing.x                : NULL
+ $ legend.spacing.y                : NULL
+ $ legend.key                      : NULL
+ $ legend.key.size                 : 'simpleUnit' num 1.2lines
+  ..- attr(*, "unit")= int 3
+ $ legend.key.height               : NULL
+ $ legend.key.width                : NULL
+ $ legend.key.spacing              : NULL
+ $ legend.key.spacing.x            : NULL
+ $ legend.key.spacing.y            : NULL
+ $ legend.key.justification        : NULL
+ $ legend.frame                    : NULL
+ $ legend.ticks                    : NULL
+ $ legend.ticks.length             : 'rel' num 0.2
+ $ legend.axis.line                : NULL
+ $ legend.text                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.text.position            : NULL
+ $ legend.title                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.title.position           : NULL
+ $ legend.position                 : chr "right"
+ $ legend.position.inside          : NULL
+ $ legend.direction                : NULL
+ $ legend.byrow                    : NULL
+ $ legend.justification            : chr "center"
+ $ legend.justification.top        : NULL
+ $ legend.justification.bottom     : NULL
+ $ legend.justification.left       : NULL
+ $ legend.justification.right      : NULL
+ $ legend.justification.inside     : NULL
+  [list output truncated]
+ @ complete: logi TRUE
+ @ validate: logi TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="c." class="level2">
+<h2 class="anchored" data-anchor-id="c.">c.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> salinity, <span class="co"># use the salintiy data frame</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> pickleweed, <span class="co"># x-axis</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> salinity_mS_cm,)) <span class="sc">+</span> <span class="co"># y-axis</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"orchid4"</span>) <span class="sc">+</span> <span class="co"># adding points and changin color</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"California Picklweed Biomass(g)"</span>, <span class="co"># relabelling the x-axis</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Salinity(mS/cm)"</span>, <span class="co"># and the y-axis</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"As Pickleweed Biomass Growth Increases Slough Salintiy Increases"</span>) <span class="co"># adding title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/Spearman%20plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_gray</span>() <span class="co"># changing theme </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;theme&gt; List of 144
+ $ line                            : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ lineend      : chr "butt"
+  ..@ linejoin     : chr "round"
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "black"
+  ..@ inherit.blank: logi TRUE
+ $ rect                            : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ text                            : &lt;ggplot2::element_text&gt;
+  ..@ family       : chr ""
+  ..@ face         : chr "plain"
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "black"
+  ..@ size         : num 11
+  ..@ hjust        : num 0.5
+  ..@ vjust        : num 0.5
+  ..@ angle        : num 0
+  ..@ lineheight   : num 0.9
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 0
+  ..@ debug        : logi FALSE
+  ..@ inherit.blank: logi TRUE
+ $ title                           : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ point                           : &lt;ggplot2::element_point&gt;
+  ..@ colour       : chr "black"
+  ..@ shape        : num 19
+  ..@ size         : num 1.5
+  ..@ fill         : chr "white"
+  ..@ stroke       : num 0.5
+  ..@ inherit.blank: logi TRUE
+ $ polygon                         : &lt;ggplot2::element_polygon&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ geom                            : &lt;ggplot2::element_geom&gt;
+  ..@ ink        : chr "black"
+  ..@ paper      : chr "white"
+  ..@ accent     : chr "#3366FF"
+  ..@ linewidth  : num 0.5
+  ..@ borderwidth: num 0.5
+  ..@ linetype   : int 1
+  ..@ bordertype : int 1
+  ..@ family     : chr ""
+  ..@ fontsize   : num 3.87
+  ..@ pointsize  : num 1.5
+  ..@ pointshape : num 19
+  ..@ colour     : NULL
+  ..@ fill       : NULL
+ $ spacing                         : 'simpleUnit' num 5.5points
+  ..- attr(*, "unit")= int 8
+ $ margins                         : &lt;ggplot2::margin&gt; num [1:4] 5.5 5.5 5.5 5.5
+ $ aspect.ratio                    : NULL
+ $ axis.title                      : NULL
+ $ axis.title.x                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.75 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.top                : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.75 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.bottom             : NULL
+ $ axis.title.y                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num 90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.75 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.y.left               : NULL
+ $ axis.title.y.right              : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num -90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.75
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text                       : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "#4D4D4DFF"
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.2 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.top                 : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.2 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.bottom              : NULL
+ $ axis.text.y                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 1
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.y.left                : NULL
+ $ axis.text.y.right               : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.theta                 : NULL
+ $ axis.text.r                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0.5
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks                      : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "#333333FF"
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ lineend      : NULL
+  ..@ linejoin     : NULL
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "#333333FF"
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks.x                    : NULL
+ $ axis.ticks.x.top                : NULL
+ $ axis.ticks.x.bottom             : NULL
+ $ axis.ticks.y                    : NULL
+ $ axis.ticks.y.left               : NULL
+ $ axis.ticks.y.right              : NULL
+ $ axis.ticks.theta                : NULL
+ $ axis.ticks.r                    : NULL
+ $ axis.minor.ticks.x.top          : NULL
+ $ axis.minor.ticks.x.bottom       : NULL
+ $ axis.minor.ticks.y.left         : NULL
+ $ axis.minor.ticks.y.right        : NULL
+ $ axis.minor.ticks.theta          : NULL
+ $ axis.minor.ticks.r              : NULL
+ $ axis.ticks.length               : 'rel' num 0.5
+ $ axis.ticks.length.x             : NULL
+ $ axis.ticks.length.x.top         : NULL
+ $ axis.ticks.length.x.bottom      : NULL
+ $ axis.ticks.length.y             : NULL
+ $ axis.ticks.length.y.left        : NULL
+ $ axis.ticks.length.y.right       : NULL
+ $ axis.ticks.length.theta         : NULL
+ $ axis.ticks.length.r             : NULL
+ $ axis.minor.ticks.length         : 'rel' num 0.75
+ $ axis.minor.ticks.length.x       : NULL
+ $ axis.minor.ticks.length.x.top   : NULL
+ $ axis.minor.ticks.length.x.bottom: NULL
+ $ axis.minor.ticks.length.y       : NULL
+ $ axis.minor.ticks.length.y.left  : NULL
+ $ axis.minor.ticks.length.y.right : NULL
+ $ axis.minor.ticks.length.theta   : NULL
+ $ axis.minor.ticks.length.r       : NULL
+ $ axis.line                       : &lt;ggplot2::element_blank&gt;
+ $ axis.line.x                     : NULL
+ $ axis.line.x.top                 : NULL
+ $ axis.line.x.bottom              : NULL
+ $ axis.line.y                     : NULL
+ $ axis.line.y.left                : NULL
+ $ axis.line.y.right               : NULL
+ $ axis.line.theta                 : NULL
+ $ axis.line.r                     : NULL
+ $ legend.background               : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : NULL
+  ..@ colour       : logi NA
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ linejoin     : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.margin                   : NULL
+ $ legend.spacing                  : 'rel' num 2
+ $ legend.spacing.x                : NULL
+ $ legend.spacing.y                : NULL
+ $ legend.key                      : NULL
+ $ legend.key.size                 : 'simpleUnit' num 1.2lines
+  ..- attr(*, "unit")= int 3
+ $ legend.key.height               : NULL
+ $ legend.key.width                : NULL
+ $ legend.key.spacing              : NULL
+ $ legend.key.spacing.x            : NULL
+ $ legend.key.spacing.y            : NULL
+ $ legend.key.justification        : NULL
+ $ legend.frame                    : NULL
+ $ legend.ticks                    : NULL
+ $ legend.ticks.length             : 'rel' num 0.2
+ $ legend.axis.line                : NULL
+ $ legend.text                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.text.position            : NULL
+ $ legend.title                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.title.position           : NULL
+ $ legend.position                 : chr "right"
+ $ legend.position.inside          : NULL
+ $ legend.direction                : NULL
+ $ legend.byrow                    : NULL
+ $ legend.justification            : chr "center"
+ $ legend.justification.top        : NULL
+ $ legend.justification.bottom     : NULL
+ $ legend.justification.left       : NULL
+ $ legend.justification.right      : NULL
+ $ legend.justification.inside     : NULL
+  [list output truncated]
+ @ complete: logi TRUE
+ @ validate: logi TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(salinity<span class="sc">$</span>salinity_mS_cm,salinity<span class="sc">$</span>pickleweed, <span class="co"># adding in data frame and columns </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"spearman"</span>) <span class="co"># this spearman test </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  salinity$salinity_mS_cm and salinity$pickleweed
+S = 824, p-value = 0.003426
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5928854 </code></pre>
+</div>
+</div>
+<p>The test I ran was the Spearman rank correlation. The assumptions I checked was if there were 1) independent observations and 2) a monotonic relationship between variables. The independent observations in the problem were the slough soil salinity and the pickleweed biomass. The monotonic relationship can be seen in the scatterplot where the dots are following a consistent direction of a curve going up. Since the data is related to each and it aligns with our assumptions, Spearman rank correlation was a appropriate test.</p>
+</section>
+<section id="d." class="level2">
+<h2 class="anchored" data-anchor-id="d.">d.</h2>
+<p>To evaluate the strength of the relationship between pickleweed biomass and soil salinity, I used a Spearman rank correlation test. Based off the test, we found a moderate relationship between pickleweed biomass and soil salinity ( Spearman ρ = 0,59, S = 824, p = 0.003, α = 0.05).</p>
+</section>
+<section id="e." class="level2">
+<h2 class="anchored" data-anchor-id="e.">e.</h2>
+<p>Based of the results of the test, we can conclude that the pickleweed biomass increases when the solute soil salinity increases. The graph shows that the data moves in a upward curve as both mS/cm increases when g increases. If we want to restore the population of pickleweed, we should plant them in soil with higher salinity.</p>
+</section>
+<section id="f." class="level2">
+<h2 class="anchored" data-anchor-id="f.">f.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> salinity, <span class="co"># use the salintiy data frame</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> pickleweed, <span class="co"># x-axis</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> salinity_mS_cm,)) <span class="sc">+</span> <span class="co"># y-axis</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"aquamarine4"</span>) <span class="sc">+</span> <span class="co"># adding points and changin color</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"California Picklweed Biomass(g)"</span>, <span class="co"># relabelling the x-axis</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Salinity(mS/cm)"</span>, <span class="co"># and the y-axis</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"As Pickleweed Biomass Growth Increases Slough Salintiy Increases"</span>) <span class="co"># adding title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/Pearson's%20plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_gray</span>() <span class="co"># changing theme </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;theme&gt; List of 144
+ $ line                            : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ lineend      : chr "butt"
+  ..@ linejoin     : chr "round"
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "black"
+  ..@ inherit.blank: logi TRUE
+ $ rect                            : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ text                            : &lt;ggplot2::element_text&gt;
+  ..@ family       : chr ""
+  ..@ face         : chr "plain"
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "black"
+  ..@ size         : num 11
+  ..@ hjust        : num 0.5
+  ..@ vjust        : num 0.5
+  ..@ angle        : num 0
+  ..@ lineheight   : num 0.9
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 0
+  ..@ debug        : logi FALSE
+  ..@ inherit.blank: logi TRUE
+ $ title                           : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ point                           : &lt;ggplot2::element_point&gt;
+  ..@ colour       : chr "black"
+  ..@ shape        : num 19
+  ..@ size         : num 1.5
+  ..@ fill         : chr "white"
+  ..@ stroke       : num 0.5
+  ..@ inherit.blank: logi TRUE
+ $ polygon                         : &lt;ggplot2::element_polygon&gt;
+  ..@ fill         : chr "white"
+  ..@ colour       : chr "black"
+  ..@ linewidth    : num 0.5
+  ..@ linetype     : num 1
+  ..@ linejoin     : chr "round"
+  ..@ inherit.blank: logi TRUE
+ $ geom                            : &lt;ggplot2::element_geom&gt;
+  ..@ ink        : chr "black"
+  ..@ paper      : chr "white"
+  ..@ accent     : chr "#3366FF"
+  ..@ linewidth  : num 0.5
+  ..@ borderwidth: num 0.5
+  ..@ linetype   : int 1
+  ..@ bordertype : int 1
+  ..@ family     : chr ""
+  ..@ fontsize   : num 3.87
+  ..@ pointsize  : num 1.5
+  ..@ pointshape : num 19
+  ..@ colour     : NULL
+  ..@ fill       : NULL
+ $ spacing                         : 'simpleUnit' num 5.5points
+  ..- attr(*, "unit")= int 8
+ $ margins                         : &lt;ggplot2::margin&gt; num [1:4] 5.5 5.5 5.5 5.5
+ $ aspect.ratio                    : NULL
+ $ axis.title                      : NULL
+ $ axis.title.x                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.75 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.top                : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.75 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.x.bottom             : NULL
+ $ axis.title.y                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num 90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.75 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.title.y.left               : NULL
+ $ axis.title.y.right              : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : num -90
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.75
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text                       : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : chr "#4D4D4DFF"
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 1
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 2.2 0 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.top                 : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : NULL
+  ..@ vjust        : num 0
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 2.2 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.x.bottom              : NULL
+ $ axis.text.y                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 1
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 0
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.y.left                : NULL
+ $ axis.text.y.right               : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 0 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.text.theta                 : NULL
+ $ axis.text.r                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0.5
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : &lt;ggplot2::margin&gt; num [1:4] 0 2.2 0 2.2
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks                      : &lt;ggplot2::element_line&gt;
+  ..@ colour       : chr "#333333FF"
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ lineend      : NULL
+  ..@ linejoin     : NULL
+  ..@ arrow        : logi FALSE
+  ..@ arrow.fill   : chr "#333333FF"
+  ..@ inherit.blank: logi TRUE
+ $ axis.ticks.x                    : NULL
+ $ axis.ticks.x.top                : NULL
+ $ axis.ticks.x.bottom             : NULL
+ $ axis.ticks.y                    : NULL
+ $ axis.ticks.y.left               : NULL
+ $ axis.ticks.y.right              : NULL
+ $ axis.ticks.theta                : NULL
+ $ axis.ticks.r                    : NULL
+ $ axis.minor.ticks.x.top          : NULL
+ $ axis.minor.ticks.x.bottom       : NULL
+ $ axis.minor.ticks.y.left         : NULL
+ $ axis.minor.ticks.y.right        : NULL
+ $ axis.minor.ticks.theta          : NULL
+ $ axis.minor.ticks.r              : NULL
+ $ axis.ticks.length               : 'rel' num 0.5
+ $ axis.ticks.length.x             : NULL
+ $ axis.ticks.length.x.top         : NULL
+ $ axis.ticks.length.x.bottom      : NULL
+ $ axis.ticks.length.y             : NULL
+ $ axis.ticks.length.y.left        : NULL
+ $ axis.ticks.length.y.right       : NULL
+ $ axis.ticks.length.theta         : NULL
+ $ axis.ticks.length.r             : NULL
+ $ axis.minor.ticks.length         : 'rel' num 0.75
+ $ axis.minor.ticks.length.x       : NULL
+ $ axis.minor.ticks.length.x.top   : NULL
+ $ axis.minor.ticks.length.x.bottom: NULL
+ $ axis.minor.ticks.length.y       : NULL
+ $ axis.minor.ticks.length.y.left  : NULL
+ $ axis.minor.ticks.length.y.right : NULL
+ $ axis.minor.ticks.length.theta   : NULL
+ $ axis.minor.ticks.length.r       : NULL
+ $ axis.line                       : &lt;ggplot2::element_blank&gt;
+ $ axis.line.x                     : NULL
+ $ axis.line.x.top                 : NULL
+ $ axis.line.x.bottom              : NULL
+ $ axis.line.y                     : NULL
+ $ axis.line.y.left                : NULL
+ $ axis.line.y.right               : NULL
+ $ axis.line.theta                 : NULL
+ $ axis.line.r                     : NULL
+ $ legend.background               : &lt;ggplot2::element_rect&gt;
+  ..@ fill         : NULL
+  ..@ colour       : logi NA
+  ..@ linewidth    : NULL
+  ..@ linetype     : NULL
+  ..@ linejoin     : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.margin                   : NULL
+ $ legend.spacing                  : 'rel' num 2
+ $ legend.spacing.x                : NULL
+ $ legend.spacing.y                : NULL
+ $ legend.key                      : NULL
+ $ legend.key.size                 : 'simpleUnit' num 1.2lines
+  ..- attr(*, "unit")= int 3
+ $ legend.key.height               : NULL
+ $ legend.key.width                : NULL
+ $ legend.key.spacing              : NULL
+ $ legend.key.spacing.x            : NULL
+ $ legend.key.spacing.y            : NULL
+ $ legend.key.justification        : NULL
+ $ legend.frame                    : NULL
+ $ legend.ticks                    : NULL
+ $ legend.ticks.length             : 'rel' num 0.2
+ $ legend.axis.line                : NULL
+ $ legend.text                     : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : 'rel' num 0.8
+  ..@ hjust        : NULL
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.text.position            : NULL
+ $ legend.title                    : &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 0
+  ..@ vjust        : NULL
+  ..@ angle        : NULL
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi TRUE
+ $ legend.title.position           : NULL
+ $ legend.position                 : chr "right"
+ $ legend.position.inside          : NULL
+ $ legend.direction                : NULL
+ $ legend.byrow                    : NULL
+ $ legend.justification            : chr "center"
+ $ legend.justification.top        : NULL
+ $ legend.justification.bottom     : NULL
+ $ legend.justification.left       : NULL
+ $ legend.justification.right      : NULL
+ $ legend.justification.inside     : NULL
+  [list output truncated]
+ @ complete: logi TRUE
+ @ validate: logi TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> salinity, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> pickleweed)) <span class="sc">+</span> <span class="co"># x-axis</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first layer: histogram</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">6</span>, <span class="co"># bins from Rice Rule (approximate)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"orange"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Calinfornia Picklweed Biomass(g)"</span>, <span class="co"># naming x and y axis </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Salinity(mS/cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/testing%20if%20normally%20distributed-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">cor.test</span>(salinity<span class="sc">$</span>salinity_mS_cm,salinity<span class="sc">$</span>pickleweed, <span class="co"># adding in data frame and columns </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pearson"</span>) <span class="co"># this pearson's test </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  salinity$salinity_mS_cm and salinity$pickleweed
+t = 2.8979, df = 21, p-value = 0.008605
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.1568265 0.7757682
+sample estimates:
+      cor 
+0.5344778 </code></pre>
+</div>
+</div>
+<p>The two test would have not led us in the same direction. The Pearson’s correlation, when testing if its normally distributed shows that the data is not perfect, but this can happen with larger data sets. However the Pearson’s correlation test gave us a positive number indicating that there is a positive and “strong” relationship between soil salinity and pickleweed biomass. In the end, both test seem to lean towards there being a positive relationship between both variables.</p>
+</section>
+</section>
+<section id="problem-2.-personal-data" class="level1">
+<h1>Problem 2. Personal data</h1>
+<section id="a.-1" class="level2">
+<h2 class="anchored" data-anchor-id="a.-1">a.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="co"># use my_data frame </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> attendance)) <span class="sc">+</span> <span class="co">#add x-axis</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat =</span> <span class="st">"count"</span>, <span class="co">#  creates a histogram </span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#FF4500"</span>, <span class="co"># fill in bar with color</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"darkorchid3"</span>) <span class="sc">+</span> <span class="co"># outline bar </span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>mood_category) <span class="sc">+</span> <span class="co"># separated by each mood</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mood Based on Going/Not Going to Jiu Jitsu"</span>, <span class="co"># add title</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Attendance"</span>, <span class="co"># label x-axis</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span> <span class="co"># label y-axis </span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>()<span class="sc">+</span> <span class="co"># change theme</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="co"># remove legend </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_histogram(stat = "count", fill = "#FF4500", color =
+"darkorchid3"): Ignoring unknown parameters: `binwidth` and `bins`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="co"># use my_data data frame</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> dates, <span class="co"># create x-axis and y-axis</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> mood_category,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> mood_category)) <span class="sc">+</span> <span class="co"># color mood_category </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># adding points</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"Date"</span>, <span class="co"># relabelling x, y, title, and color</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Mood"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Mood Throughout Time"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"Mood Category"</span>) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>() <span class="co"># change theme</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-03_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-1" class="level2">
+<h2 class="anchored" data-anchor-id="b.-1">b.</h2>
+<p><strong>Figure 1. Going/Not Going to Jiu Jitsu:</strong> Columns represent counts of attendance in regards of going or not going to jiu Jitsu. Distributions of attendance are represented in four panels based on my emotion at the end of day in regards to attendance: HEP “high energy positive”(top left), HEU” high energy unpleasant” (top right), LEP “low energy positive” (bottom left), and LEU ” low energy unpleasant”(bottom right) .</p>
+<p><strong>Figure 2. Mood Throughout Time.</strong> Each dot represents the mood I felt at the end of the day in regards of my attendance of going to jiu jitsu. It is split up into four mood categories: red is HEP( high energy positive), green is HEP( high energy unpleasant), blue is LEP( low energy positive), and purple is LEU( low energy unpleasant).</p>
+</section>
+</section>
+<section id="problem-3.-affective-visualization" class="level1">
+<h1>Problem 3. Affective visualization</h1>
+<section id="a.-2" class="level2">
+<h2 class="anchored" data-anchor-id="a.-2">a.</h2>
+<p>For my affective visualization, it could look like a collage/ scrapbook. Since I have four different mood categories, I wanted to represent each mood with a color. From those colors, I would find images of items that fall in those colors and glue them in order from how I felt each day. I wanted to glue the pictures also in a zig zag shape to represent ” Z” for Zoe, since this is my data set.</p>
+</section>
+<section id="b.-2" class="level2">
+<h2 class="anchored" data-anchor-id="b.-2">b.</h2>
+<p><img src="images/clipboard-2852098940.png" class="img-fluid"></p>
+</section>
+<section id="c.-1" class="level2">
+<h2 class="anchored" data-anchor-id="c.-1">c.</h2>
+<p><img src="images/clipboard-139640617.png" class="img-fluid"></p>
+</section>
+<section id="d.-1" class="level2">
+<h2 class="anchored" data-anchor-id="d.-1">d.</h2>
+<p>In my piece I wanted to use day-to-day items to show how much influence our day-to-day mood has on us. Anything can influence our mood throughout the day, so does attending jiu jitsu really make that big of a difference? This is what I wanted to represent in my visualization. My influence is Pinterest. I enjoy grouping photos together that fit a certain theme, and seeing others on the Internet scrapbook. I myself am not a great artist, so I thought scrapbooking would be perfect to still let me be creative as well not humiliate myself to others with my drawing skills. Honestly, my process was just a light bulb moment. I kept on thinking what I could do, without having to paint and draw with making it seem dull and scrapbooking was the thing that called me.</p>
+</section>
+<section id="e.-1" class="level2">
+<h2 class="anchored" data-anchor-id="e.-1">e.</h2>
+<p><a href="https://docs.google.com/presentation/d/1baZvH3nevBYd-IbRNbMper1oahUeJJI5jOKi6UShWcI/edit?usp=sharing" class="uri">https://docs.google.com/presentation/d/1baZvH3nevBYd-IbRNbMper1oahUeJJI5jOKi6UShWcI/edit?usp=sharing</a></p>
+</section>
+</section>
+<section id="problem-4.-statistical-critique" class="level1">
+<h1>Problem 4. Statistical critique</h1>
+<section id="a.-3" class="level2">
+<h2 class="anchored" data-anchor-id="a.-3">a.</h2>
+<p>ANOVA is a statistical test included in this paper. The response variable is the attitudes on electric vs.&nbsp;gas cars. The predictor variable is the personal statics of the car owners vs.&nbsp;non-car owners.</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAADRCAYAAABoz7+1AAAQAElEQVR4AezdCZxnRXUv8Prd/zBBFjMgxjFGGDXiEpdR4xJBHdyCWxzEPAc1OoD7kojRvPjy8qK+JCbGKAT3FYgL+lwwxojRKKi4JGpwi2tkiWtcQEFQYIb3/9ad6vlPM0tPT/d093D7M2du3VpOVZ0659Sp+p+q2109R38bN268euPGATZuHGiwceNAg40bBxps3Lh1GmxN5VBE5bLLLivf//73ywUXXFC++c1vzgj+8z//swww0GDggYEHdpYHvvGNb5QGP/rRj8qGqzaU7qqrriqj0ahc97rXLb/yK79SbnjDG5Zf/dVfHWCgwcADAw/MOw/80i/9UhktG5Vur732Kl723nvvAq5znevUp/D2QL5J2GeffcoAAw22xgND3MAX2+KB/fbbr/jr/DcJ4/Xb5OsQHigwUGCgwLxT4BqKaN5rHCoYKDBQYKDANAoMimgaQYbXgQIDBXY/BXZZEe3+Jg81DhQYKLBUKWDrZxJaP7ZQRDJI8GzgfYCBAvNFgSuvvLL813/9V3nlK19Z/uRP/qScc845W1Tlp91f/OIXNU5448aNBeBPkS1NWLrndJD3iiuuKOoCLR0eYWktT8PhveWVz7u8cw3wfulLXypvfetby09+8pOK/t3vfnf5xCc+UcPa0+r3FNnaJSzdEx7P9i6MNspI+/nPfy6q0k4ADmmXXHJJkQ7k95Qu7CnPJE60amVb3ulP+Vs5eeEBynpuDbZQRFvLMMQNFJhPCvBfO+aYY8o//MM/VEF8zGMeU05/y+nF309/+tPy44t+XH/V9V5/5u26gqG5nWD25cuXVwVDoK648ooqVJgfNAEhhPL5hRi0+G6MSz5pl19+efFUh7o2bthYxAnLl6T6u3ifS0hSPvOZz5R169aVf/zHf6yoX/ayl1V66N/GqzeWDRs2lGRc//gpTh+aotBe/QHo5V1/L7300ko3bYdUOhp5bziE97nOPhU3euo/evArXDZaViiUSusNV0FRQd1wJanl0EgZddYM4/8uufSSAne6FPnHUXWM4FcWiAPCoPMywECBhaLAm970pjpL/9M//VM5+eSTywte8IKyz777lLPOOqscu/7Y8sd//Mflj8dw8cUXl2c+85nlaU97WvnzP//zWoaQUGTifu/3fq885znPKYTtiU98Yjn77LPLZz/72XLUUUeVZcuWVTyvfe1rywknnFDxPPjBDy7Pfe5zq+I66aSTylOe8pRy/PHHl+9973vl//2//1eeccIzyuMe97hqoRFcdRGsMsd/8GrfoYceWl760pcWDn78+LjU/PCHPyxPfvKTy0Mf+tDyv/7X/yqUxUte8pLaruOOO65Q4M2KIvh+Cv/BD35Q/uAP/qD8j//xP2qf0OOtp7+1yK/vaMxp+bGPfWx56lOfWk76u5MKpUZh/Nu//VtBR3j/6q//qvzghz+oNPnv//7vctppp9X8FM/Tn/708va3v72OxbOf/eyClm9+85urYnr+859f6zcWP/vZz8orXvGKWs6YfPnLX655kkxRMUmNGxTRFEmGwEJQ4Fvf+la52c1uVqs2ixOg3/md3ymE8IEPemB5yEMeUv7+7/++fPWrXy0f//jHi5l33dh6SFL93SglAvqqV72q/Md//Ec5/fTTC4G0xJP/wx/+cPnoRz9aCBln3XPPPbfc6EY3Kk960pOKJRAF+JrXvKY88IEPLASH4qP0LJUe9ahHldve9raFkJvNPWtD5/A/CuDHP/5xWb16dbnnPe9Z/uzP/qwqBg7GJ554YrX+KIF//ud/rlYSj2Tte97znlc+97nPlY997GPlk5/8ZKEIvvvd75aXv/zl5aKLLir6RMF9/etfL1dedWVVFre85S2rQpEPfX75l3+5POIRj5iyWijmX//1Xy9/+7d/W5Xx1772tXrq4n3ve19BN/RkvYEb3OAGVRk96EEPKsbrLW95Sx0nE8sjH/nI8oEPfKC8+tWvLueff34xBuLQf1ukGxTRtigzxO8WCtzkJjcpX/nKVwolxIH2RS96Ufk//+f/VEVEiAjpAQccUK2B/fffvxx99NHlN37jN+osqoHf/c53yx3veMdCMA4//PCKy+z7rne9qwoPa4kVAAdBN6Pf+973nipDwVEw3/72t8utb33rcre73a225X73u18VMHVaOjRQ51xCkorO8uuP/uiP6rEpAk/x6f897nGPeurhNre5TU3T1tvf/vblpje9abnxjW9cLvnpJdVqo1DlB3e6052qsoVPvymDz3/+85WmBx54YFWsK1euLL//+79fPac1AF0ouCOOOKJODPI5uvGwhz2s7l+p9y53uUthPd73vveteeD4zd/8zXLnO9+5Kn/juGLF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" class="img-fluid"></p>
+</section>
+<section id="b.-3" class="level2">
+<h2 class="anchored" data-anchor-id="b.-3">b.</h2>
+<p>The table above shows people demographics that could influence the person feeling towards electric cars and the whole idea of sustainability. Knowing what could influence a person decision before and after helped the reseachers understand how they can appeal to different audiences.</p>
+</section>
+<section id="c.-2" class="level2">
+<h2 class="anchored" data-anchor-id="c.-2">c.</h2>
+<p>When it comes to visual clutter, they did fine, nothing spectacular. They bolded the words “car owners” and “non-car owners” at the top to represent the 2 main groups they are looking at. After that, on the left side they created new lines for each thing they took into account. The table is clean and makes sense.</p>
+</section>
+<section id="d.-2" class="level2">
+<h2 class="anchored" data-anchor-id="d.-2">d.</h2>
+<p>I think overall, the table is clean looking and easy to understand. The numbers itself become a little confusing, so I would add units to make it clear on what the numbers represent/ how to measure each one. The table is plain as well, so I would provide more color to help make it more visually pleasing.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
