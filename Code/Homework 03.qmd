@@ -4,7 +4,6 @@ author: "Zoe Stopfer"
 date: "2026/03/03"
 format: html
 editor: visual
-https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git
 ---
 
 ```{r}
@@ -19,6 +18,8 @@ salinity <- read_csv(here("Data", "salinity-pickleweed.csv")) # reading salinity
 my_data <- read_csv(here("Data", "JJMood4.csv")) |> # read in JJ Mood and make into a object
   clean_names() # clean column names
 ```
+
+<https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git>
 
 # Problem 1. Slough Soil Salinity
 
