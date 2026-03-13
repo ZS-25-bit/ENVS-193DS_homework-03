@@ -4,6 +4,7 @@ author: "Zoe Stopfer"
 date: "2026/03/03"
 format: html
 editor: visual
+toc: true
 ---
 
 ```{r}
@@ -107,13 +108,15 @@ ggplot(data = salinity,
 
 ```
 
-The two test would have not led us in the same direction. The Pearson's correlation, when testing if its normally distributed shows that the data is not perfect, but this can happen with larger data sets. However the Pearson's correlation test gave us a positive number indicating that there is a positive and "strong" relationship between soil salinity and pickleweed biomass. In the end, both test seem to lean towards there being a positive relationship between both variables.
+The two test would have led us in the same direction. The Pearson's correlation and Spearman rank correlation both show a moderate relationship between soil salinity and pickleweed biomass (cor: 0.53 and rho: 0.59) . We reject the null hypothesis that true rho/cor for soil salinity and bickleweed biomass is equal to zero for both test because the p-value in Pearson is 0.0086 and the Spearman is 0.0034, both less than 0.05 significance level. In the end, both test seem to lean towards there being a positive relationship between both variables.
 
 # Problem 2. Personal data
 
 ## a.
 
 ```{r}
+#| message: false 
+#| warning: false
 ggplot(data = my_data, # use my_data frame 
        aes(x = attendance)) + #add x-axis
   geom_histogram(stat = "count", #  creates a histogram 
